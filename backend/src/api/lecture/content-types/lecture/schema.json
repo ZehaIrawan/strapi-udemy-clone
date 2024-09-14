@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "lectures",
+  "info": {
+    "singularName": "lecture",
+    "pluralName": "lectures",
+    "displayName": "Lecture"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "videoURL": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "integer"
+    },
+    "section": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::section.section",
+      "inversedBy": "lectures"
+    }
+  }
+}
