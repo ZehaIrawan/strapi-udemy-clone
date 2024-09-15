@@ -12,8 +12,14 @@ import {
   handleAddNewSection,
   handleDeleteSection,
   handleSaveSection,
-  handleChangeSection
+  handleChangeSection,
 } from "@/lib/sectionUtils";
+import {
+  handleAddLecture,
+  handleChangeLecture,
+  handleDeleteLecture,
+  handleSaveLecture,
+} from "@/lib/lectureUtils";
 
 export default function CourseForm({ onClose, setCourses, existingCourse }) {
   const router = useRouter();
@@ -33,9 +39,19 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
         description: existingCourse.description,
         slug: existingCourse.slug,
         thumbnail: existingCourse.thumbnail,
-        sections: existingCourse.sections.map((section) => ({
-          ...section,
-        })),
+        sections: existingCourse.sections
+          .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+          .map((section) => ({
+            ...section,
+            lectures: section.lectures
+              ? section.lectures
+                  .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                  .map((lecture) => ({
+                    ...lecture,
+                    documentId: lecture.documentId,
+                  }))
+              : [],
+          })),
       });
     }
   }, [existingCourse]);
@@ -180,7 +196,15 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
                 <div className="flex justify-end space-x-2 mt-2">
                   <button
                     type="button"
-                    onClick={() => handleSaveSection(formData,setFormData,sectionIndex,existingCourse.documentId,toast)}
+                    onClick={() =>
+                      handleSaveSection(
+                        formData,
+                        setFormData,
+                        sectionIndex,
+                        existingCourse.documentId,
+                        toast,
+                      )
+                    }
                     className="bg-blue-500 text-white px-4 py-2 rounded"
                   >
                     Save Section
@@ -200,6 +224,106 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
                     Delete Section
                   </button>
                 </div>
+
+                <Accordion type="single" collapsible className="mt-4 ml-6">
+                  {section.lectures &&
+                    section.lectures.map((lecture, lectureIndex) => (
+                      <AccordionItem
+                        key={lectureIndex}
+                        value={`lecture-${sectionIndex}-${lectureIndex}`}
+                      >
+                        <AccordionTrigger className="text-left">
+                          {lecture.title || `Lecture ${lectureIndex + 1}`}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <input
+                            value={lecture.title}
+                            onChange={(e) =>
+                              handleChangeLecture(
+                                setFormData,
+                                sectionIndex,
+                                lectureIndex,
+                                "title",
+                                e.target.value,
+                              )
+                            }
+                            className="shadow appearance-none border rounded w-full py-2 my-2 px-3 text-gray-700"
+                            placeholder="Lecture Title"
+                          />
+                          <input
+                            value={lecture.videoURL}
+                            onChange={(e) =>
+                              handleChangeLecture(
+                                setFormData,
+                                sectionIndex,
+                                lectureIndex,
+                                "videoURL",
+                                e.target.value,
+                              )
+                            }
+                            className="shadow appearance-none border rounded w-full py-2 my-2 px-3 text-gray-700"
+                            placeholder="Video URL"
+                          />
+                          <input
+                            type="number"
+                            value={lecture.duration}
+                            onChange={(e) =>
+                              handleChangeLecture(
+                                setFormData,
+                                sectionIndex,
+                                lectureIndex,
+                                "duration",
+                                parseInt(e.target.value, 10),
+                              )
+                            }
+                            className="shadow appearance-none border rounded w-full py-2 my-2 px-3 text-gray-700"
+                            placeholder="Duration (in seconds)"
+                          />
+                          <div className="flex justify-end space-x-2 mt-2">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleSaveLecture(
+                                  setFormData,
+                                  formData,
+                                  toast,
+                                  sectionIndex,
+                                  lectureIndex,
+                                )
+                              }
+                              className="bg-green-500 text-white px-4 py-2 rounded"
+                            >
+                              Save Lecture
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleDeleteLecture(
+                                  setFormData,
+                                  formData,
+                                  toast,
+                                  sectionIndex,
+                                  lectureIndex,
+                                  formData,
+                                )
+                              }
+                              className="bg-red-500 text-white px-4 py-2 rounded"
+                            >
+                              Delete Lecture
+                            </button>
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                </Accordion>
+
+                <button
+                  type="button"
+                  onClick={() => handleAddLecture(setFormData, sectionIndex)}
+                  className="bg-green-500 text-white px-4 py-2 rounded mt-4"
+                >
+                  Add Lecture
+                </button>
               </div>
             </AccordionContent>
           </AccordionItem>
