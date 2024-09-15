@@ -176,6 +176,7 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
       <Accordion type="single" collapsible className="w-full">
         {formData.sections.map((section, sectionIndex) => (
           <AccordionItem key={sectionIndex} value={`section-${sectionIndex}`}>
+            <h2 className="text-2xl font-bold">Section</h2>
             <AccordionTrigger className="text-left">
               {section.title || `Section ${sectionIndex + 1}`}
             </AccordionTrigger>
@@ -229,9 +230,10 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
                   {section.lectures &&
                     section.lectures.map((lecture, lectureIndex) => (
                       <AccordionItem
-                        key={lectureIndex}
-                        value={`lecture-${sectionIndex}-${lectureIndex}`}
+                      key={lectureIndex}
+                      value={`lecture-${sectionIndex}-${lectureIndex}`}
                       >
+                      <h2 className="text-xl font-bold">Lecture</h2>
                         <AccordionTrigger className="text-left">
                           {lecture.title || `Lecture ${lectureIndex + 1}`}
                         </AccordionTrigger>
@@ -291,7 +293,7 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
                                   lectureIndex,
                                 )
                               }
-                              className="bg-green-500 text-white px-4 py-2 rounded"
+                              className="bg-blue-500 text-white px-4 py-2 rounded"
                             >
                               Save Lecture
                             </button>
@@ -320,7 +322,7 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
                 <button
                   type="button"
                   onClick={() => handleAddLecture(setFormData, sectionIndex)}
-                  className="bg-green-500 text-white px-4 py-2 rounded mt-4"
+                  className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
                 >
                   Add Lecture
                 </button>
