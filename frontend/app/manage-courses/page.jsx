@@ -5,10 +5,16 @@ import axios from "axios";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import Modal from '@/components/Modal';
 
 const ManageCoursesPage = () => {
   const { toast } = useToast();
   const [courses, setCourses] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -51,7 +57,7 @@ const ManageCoursesPage = () => {
     <div className="min-h-screen bg-gray-100 text-center p-24">
       <Navbar />
       <h1 className="text-3xl font-semibold mb-6">Manage courses</h1>
-      <Button className="mb-6">Create new course</Button>
+      <Button className="mb-6" onClick={handleOpenModal}>Create new course</Button>
       <div className="flex flex-col items-start gap-6 w-1/2">
         {courses.map((course) => (
           <div className="py-12 pl-6 text-left w-full border text-card-foreground bg-white shadow-md rounded-md">
@@ -69,6 +75,9 @@ const ManageCoursesPage = () => {
           </div>
         ))}
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+       <h1>This is placeholder for modal content</h1>
+      </Modal>
     </div>
   );
 };
