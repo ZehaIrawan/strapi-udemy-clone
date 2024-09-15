@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from 'next/navigation';
 
 export default function CourseForm({ onClose, setCourses, existingCourse }) {
+  const router = useRouter();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     title: "",
@@ -39,13 +41,13 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
           { data: formData },
           config,
         );
-        onClose(); 
         toast({
           title: "Success",
           description: "Course updated successfully",
           duration: 3000,
           variant: "success",
         });
+        router.push(`/manage-courses`);
       
       } else {
         const res = await axios.post(
