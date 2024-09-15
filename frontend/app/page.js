@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Link from "next/link";
+import Navbar from '@/components/Navbar';
 
 const AllCoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -45,9 +45,7 @@ const AllCoursesPage = () => {
 
   return (
     <div className="flex flex-col p-24">
-      <div>
-        <Link href="/">Home</Link>
-      </div>
+        <Navbar />
       {!isLoading && courses.length === 0 ? (
         <div>There are no courses available</div>
       ) : (

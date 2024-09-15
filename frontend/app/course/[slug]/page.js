@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import Accordion from "@/components/Accordion";
-import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 async function getCourseBySlug(slug) {
   try {
@@ -47,8 +47,8 @@ export default async function Page({ params }) {
 
   const getTotalLecturesDuration = () => {
     const totalSeconds = course.sections.reduce((total, section) => {
-      console.log(section.lectures,'section');
-      const sectionDuration = section.lectures[0].duration
+      console.log(section.lectures, "section");
+      const sectionDuration = section.lectures[0].duration;
       return total + sectionDuration;
     }, 0);
     return secondsToHMS(totalSeconds);
@@ -62,18 +62,16 @@ export default async function Page({ params }) {
     const hoursStr = hours > 0 ? `${hours}:` : "";
     const minutesStr =
       minutes > 0 || hours > 0 ? String(minutes).padStart(2, "0") + ":" : "";
-    const secondsStr = String(seconds).padStart(2, "0") 
+    const secondsStr = String(seconds).padStart(2, "0");
 
     return `${hoursStr}${minutesStr}${secondsStr}`;
   }
 
   return (
-    <main className="flex justify-center pt-16 bg-white ">
+    <main className="flex flex-col p-24">
+      <Navbar />
       <div className="max-w-5xl w-full p-8">
         <div>
-          <Link href="/" className="mb-6 text-blue-500 hover:underline">
-            Home
-          </Link>
           <h1 className="text-4xl mb-6 font-bold text-gray-900">
             {course.title}
           </h1>
@@ -90,12 +88,11 @@ export default async function Page({ params }) {
             </li>
             <li className="list-disc">{`${getTotalLectures()} lectures`}</li>
             <li className="list-disc">
-              
               {`${getTotalLecturesDuration()} total length`}
             </li>
           </ul>
 
-            <Accordion course={course} secondsToHMS={secondsToHMS}/>
+          <Accordion course={course} secondsToHMS={secondsToHMS} />
         </div>
       </div>
     </main>
