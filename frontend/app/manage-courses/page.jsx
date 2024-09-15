@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import Modal from '@/components/Modal';
+import CourseForm from "@/components/CourseForm";
 
 const ManageCoursesPage = () => {
   const { toast } = useToast();
@@ -76,7 +77,7 @@ const ManageCoursesPage = () => {
         ))}
       </div>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-       <h1>This is placeholder for modal content</h1>
+      <CourseForm onClose={handleCloseModal} setCourses={setCourses} />
       </Modal>
     </div>
   );
