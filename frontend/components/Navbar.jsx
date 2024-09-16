@@ -28,7 +28,7 @@ const Navbar = () => {
           <ShoppingCart size={24} className="text-gray-700" />
         </div>
       </Link>
-      {userData && <Link href="/my-courses">My learning</Link>}
+      {userData && <Link href="/my-learning">My learning</Link>}
       {userData && <Link href="/manage-courses">Manage Courses</Link>}
       {userData ? (
         <NavAvatar userData={userData} />
