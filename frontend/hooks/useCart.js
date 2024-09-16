@@ -53,7 +53,7 @@ export const useCart = () => {
     }
   };
 
-  return { userCart, loading, removeFromCart };
+  return { userCart, loading, removeFromCart, fetchUserCart };
 };
 
 export const addToCart = async (cart, course, toast) => {

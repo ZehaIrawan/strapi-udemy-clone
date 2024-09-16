@@ -7,15 +7,11 @@ import { useToast } from "@/hooks/use-toast";
 
 const Sidebar = ({ course }) => {
   const { toast } = useToast();
-  const { userCart } = useCart();
+  const { userCart, fetchUserCart } = useCart();
 
-  const handleAddToCart = () => {
-    if (
-      userCart?.courses?.filter((item) => item.id === course.id).length === 0 ||
-      !userCart?.courses
-    ) {
-      addToCart(userCart, course, toast);
-    }
+  const handleAddToCart = async () => {
+    await addToCart(userCart, course, toast);
+    await fetchUserCart();
   };
 
   return (
@@ -27,7 +23,6 @@ const Sidebar = ({ course }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-      
         {userCart?.courses?.filter((item) => item.id === course.id).length >
         0 ? (
           <Link href="/cart">
