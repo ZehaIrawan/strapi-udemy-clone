@@ -2,6 +2,7 @@
 import axios from "axios";
 import Accordion from "@/components/Accordion";
 import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 
 async function getCourseBySlug(slug) {
   try {
@@ -27,7 +28,7 @@ async function getCourseBySlug(slug) {
   }
 }
 
-export default async function Page({ params }) {
+export default async function CourseOverviewPage({ params }) {
   const course = await getCourseBySlug(params.slug);
   if (!course) {
     return (
@@ -47,8 +48,7 @@ export default async function Page({ params }) {
 
   const getTotalLecturesDuration = () => {
     const totalSeconds = course.sections.reduce((total, section) => {
-      console.log(section.lectures, "section");
-      const sectionDuration = section.lectures[0].duration;
+      const sectionDuration = section.lectures[0]?.duration;
       return total + sectionDuration;
     }, 0);
     return secondsToHMS(totalSeconds);
@@ -70,8 +70,8 @@ export default async function Page({ params }) {
   return (
     <main className="flex flex-col p-24">
       <Navbar />
-      <div className="max-w-5xl w-full p-8">
-        <div>
+      <div className="flex justify-center gap-12 pt-12">
+        <div className='min-w-[500px]'>
           <h1 className="text-4xl mb-6 font-bold text-gray-900">
             {course.title}
           </h1>
@@ -94,6 +94,7 @@ export default async function Page({ params }) {
 
           <Accordion course={course} secondsToHMS={secondsToHMS} />
         </div>
+        <Sidebar course={course} />
       </div>
     </main>
   );

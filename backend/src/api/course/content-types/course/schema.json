@@ -37,6 +37,9 @@
       "relation": "oneToMany",
       "target": "api::section.section",
       "mappedBy": "course"
+    },
+    "price": {
+      "type": "decimal"
     }
   }
 }

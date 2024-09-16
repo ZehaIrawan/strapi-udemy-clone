@@ -67,11 +67,18 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
       headers: { Authorization: `Bearer ${token}` },
     };
 
+    const payload = {
+      title: formData.title,
+      description: formData.description,
+      slug: formData.slug,
+      thumbnail: formData.thumbnail,
+    }
+
     try {
       if (existingCourse) {
         const res = await axios.put(
           `http://127.0.0.1:1337/api/courses/${existingCourse.documentId}`,
-          { data: formData },
+          { data: payload },
           config,
         );
         toast({
@@ -84,7 +91,7 @@ export default function CourseForm({ onClose, setCourses, existingCourse }) {
       } else {
         const res = await axios.post(
           "http://127.0.0.1:1337/api/courses",
-          { data: formData },
+          { data: payload },
           config,
         );
         toast({
