@@ -37,7 +37,7 @@ const MyLearningPage = () => {
   return (
     <main className="flex flex-col px-24 pt-12 bg-white w-full">
       <Navbar />
-      <h1 className="text-3xl font-bold mb-6">My Learning</h1>
+      <h1 className="text-3xl font-bold my-6">My Learning</h1>
       {courseProgresses.length === 0 ? (
         <p>You haven't started any courses yet.</p>
       ) : (
