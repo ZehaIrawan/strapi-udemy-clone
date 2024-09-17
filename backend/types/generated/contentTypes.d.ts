@@ -474,6 +474,7 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::course-progress.course-progress'
     >;
+    ratings: Schema.Attribute.Relation<'oneToMany', 'api::rating.rating'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -537,6 +538,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     sections: Schema.Attribute.Relation<'oneToMany', 'api::section.section'>;
     price: Schema.Attribute.Decimal;
     isPurchased: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    ratings: Schema.Attribute.Relation<'oneToMany', 'api::rating.rating'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -610,6 +612,35 @@ export interface ApiLectureLecture extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::lecture.lecture'
     >;
+  };
+}
+
+export interface ApiRatingRating extends Struct.CollectionTypeSchema {
+  collectionName: 'ratings';
+  info: {
+    singularName: 'rating';
+    pluralName: 'ratings';
+    displayName: 'Rating';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    rating: Schema.Attribute.Integer;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::rating.rating'>;
   };
 }
 
@@ -1021,6 +1052,7 @@ declare module '@strapi/strapi' {
       'api::course.course': ApiCourseCourse;
       'api::course-progress.course-progress': ApiCourseProgressCourseProgress;
       'api::lecture.lecture': ApiLectureLecture;
+      'api::rating.rating': ApiRatingRating;
       'api::section.section': ApiSectionSection;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;

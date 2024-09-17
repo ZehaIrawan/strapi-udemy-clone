@@ -44,6 +44,12 @@
     "isPurchased": {
       "type": "boolean",
       "default": false
+    },
+    "ratings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::rating.rating",
+      "mappedBy": "course"
     }
   }
 }
