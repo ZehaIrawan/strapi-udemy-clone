@@ -4,13 +4,14 @@ import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import Loader from "@/components/Loader";
+import { useRouter } from "next/navigation";
 
 export default function WatchCoursePage({ params }) {
   const [course, setCourse] = useState(null);
   const [userProgress, setUserProgress] = useState([]);
   const [completedLectures, setCompletedLectures] = useState([]);
   const [courseProgressId, setCourseProgressId] = useState(null);
-
+  const router = useRouter();
   const [selectedVideoId, setSelectedVideoId] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -128,6 +129,10 @@ export default function WatchCoursePage({ params }) {
   };
 
   if (isLoading) return <Loader />;
+
+  if (!course.isPurchased) {
+    router.push(`/`);
+  }
 
   return (
     <main className="flex flex-col pt-4 px-24 h-screen">

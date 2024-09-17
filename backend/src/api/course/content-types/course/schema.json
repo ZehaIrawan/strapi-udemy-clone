@@ -40,6 +40,10 @@
     },
     "price": {
       "type": "decimal"
+    },
+    "isPurchased": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

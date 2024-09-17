@@ -10,9 +10,6 @@ export async function POST(request) {
       const courseIds = JSON.parse(metadata.courseIds);
       const token = metadata.token;
       const cartId = metadata.cartId;
-      console.log(courseIds, "courseIds");
-      console.log(token, "token");
-      console.log(cartId, "cartId");
 
       const config = {
         headers: { Authorization: `Bearer ${token}` },
@@ -29,11 +26,30 @@ export async function POST(request) {
           },
           config,
         );
-        console.log(res.status,res.statusText, "res");
+        console.log(res.status, res.statusText, "res");
       } catch (error) {
         console.error("Error removing from cart:", error);
       }
+
+      try {
+        const updateCoursePromises = courseIds.map((courseId) =>
+          axios.put(
+            `http://127.0.0.1:1337/api/courses/${courseId}`,
+            {
+              data: {
+                isPurchased: true,
+              },
+            },
+            config,
+          ),
+        );
+
+        const responses = await Promise.all(updateCoursePromises);
+      } catch (error) {
+        console.error("Error updating courses:", error);
+      }
     }
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error parsing request body:", error);

@@ -536,6 +536,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
     category: Schema.Attribute.Enumeration<['Python', 'Ruby', 'Javascript']>;
     sections: Schema.Attribute.Relation<'oneToMany', 'api::section.section'>;
     price: Schema.Attribute.Decimal;
+    isPurchased: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
