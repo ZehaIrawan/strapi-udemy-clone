@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 
 export async function POST(request) {
-  const { items } = await request.json();
+  const { items, token,cartId } = await request.json();
 
   const courseIds = items.map((item) => item.courseId);
 
@@ -25,6 +25,8 @@ export async function POST(request) {
     payment_intent_data: {
       metadata: {
         courseIds: JSON.stringify(courseIds),
+        token: token,
+        cartId: cartId
       },
     },
     expand: ["line_items"],

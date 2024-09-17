@@ -8,10 +8,12 @@ const AllCoursesPage = () => {
   const [categories, setCategories] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(courses,'courses');
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:1337/api/courses");
+        const response = await axios.get("http://127.0.0.1:1337/api/courses");
         const fetchedCourses = response.data.data;
         
         const groupedCourses = fetchedCourses.reduce((acc, course) => {

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Check, Delete } from "lucide-react";
 import Loader from "@/components/Loader";
 import { useCart } from "@/hooks/useCart";
-// import CheckoutCart from '@/components/CheckoutCart';
+import CheckoutCart from '@/components/CheckoutCart';
 
 const CartPage = () => {
   const { userCart, loading, removeFromCart } = useCart();
@@ -69,7 +69,9 @@ const CartPage = () => {
               </div>
             )}
           </div>
-          {/* <CheckoutCart /> */}
+          {userCart?.courses?.length > 0 && (
+            <CheckoutCart />
+          )}
         </div>
       </main>
     </div>

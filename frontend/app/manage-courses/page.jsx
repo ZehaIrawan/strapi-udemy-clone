@@ -20,7 +20,7 @@ const ManageCoursesPage = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get(`http://localhost:1337/api/courses`);
+        const response = await axios.get(`http://127.0.0.1:1337/api/courses`);
 
         setCourses(response.data.data);
       } catch (error) {
@@ -38,7 +38,7 @@ const ManageCoursesPage = () => {
     };
     try {
       await axios.delete(
-        `http://localhost:1337/api/courses/${documentId}`,
+        `http://127.0.0.1:1337/api/courses/${documentId}`,
         config,
       );
       setCourses(courses.filter((course) => course.documentId !== documentId));

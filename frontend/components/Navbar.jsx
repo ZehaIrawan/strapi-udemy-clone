@@ -31,7 +31,7 @@ const Navbar = () => {
       return;
     }
 
-    fetch(`http://localhost:1337/api/courses?filters[title][$contains]=${debouncedSearchTerm}`)
+    fetch(`http://127.0.0.1:1337/api/courses?filters[title][$contains]=${debouncedSearchTerm}`)
       .then(response => response.json())
       .then(data => setSearchResults(data.data || []))
       .catch(error => {

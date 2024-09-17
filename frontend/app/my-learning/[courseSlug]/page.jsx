@@ -48,7 +48,7 @@ export default function WatchCoursePage({ params }) {
           headers: { Authorization: `Bearer ${token}` },
         };
         const userProgressResponse = await axios.get(
-          `http://localhost:1337/api/course-progresses?filters[user][id][$eq]=${currentUserId}`,
+          `http://127.0.0.1:1337/api/course-progresses?filters[user][id][$eq]=${currentUserId}`,
           {
             ...config,
           },
@@ -94,7 +94,7 @@ export default function WatchCoursePage({ params }) {
         const completedCount = updatedCompletedLectures.length;
 
         await axios.put(
-          `http://localhost:1337/api/course-progresses/${courseProgressId}`,
+          `http://127.0.0.1:1337/api/course-progresses/${courseProgressId}`,
           {
             data: {
               completedLectures: updatedCompletedLectures,

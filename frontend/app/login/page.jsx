@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import axios from 'axios'; 
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -16,12 +16,13 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:1337/api/auth/local', {
+      const response = await axios.post('http://127.0.0.1:1337/api/auth/local', {
         identifier: email,
         password: password,
       });
 
       const { jwt, user } = response.data;
+
       localStorage.setItem('token', jwt);
       localStorage.setItem('user', JSON.stringify(user));
 

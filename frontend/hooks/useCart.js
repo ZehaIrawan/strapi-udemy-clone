@@ -13,7 +13,7 @@ export const useCart = () => {
         headers: { Authorization: `Bearer ${token}` },
       };
       const response = await axios.get(
-        `http://localhost:1337/api/carts?filters[user][id][$eq]=${currentUser.id}&populate=courses`,
+        `http://127.0.0.1:1337/api/carts?filters[user][id][$eq]=${currentUser.id}&populate=courses`,
         config,
       );
 
@@ -37,7 +37,7 @@ export const useCart = () => {
     };
     try {
       await axios.put(
-        `http://localhost:1337/api/carts/${cartId}`,
+        `http://127.0.0.1:1337/api/carts/${cartId}`,
         {
           data: {
             courses: {
@@ -53,7 +53,7 @@ export const useCart = () => {
     }
   };
 
-  return { userCart, loading, removeFromCart, fetchUserCart };
+  return { userCart, loading, removeFromCart,fetchUserCart };
 };
 
 export const addToCart = async (cart, course, toast) => {
@@ -66,7 +66,7 @@ export const addToCart = async (cart, course, toast) => {
   if (!cart) {
     try {
       await axios.post(
-        `http://localhost:1337/api/carts`,
+        `http://127.0.0.1:1337/api/carts`,
         {
           data: {
             user: {
@@ -91,7 +91,7 @@ export const addToCart = async (cart, course, toast) => {
   } else {
     try {
       const response = await axios.put(
-        `http://localhost:1337/api/carts/${cart.documentId}`,
+        `http://127.0.0.1:1337/api/carts/${cart.documentId}`,
         {
           data: {
             courses: {
