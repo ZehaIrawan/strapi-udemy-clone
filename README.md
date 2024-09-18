@@ -9,16 +9,11 @@ npm run develop
 ```
 
 
-Create .env file in frontend
-
-```
-NEXT_PUBLIC_STRIPE_PUBLIC_KEY=YOUR_STRIPE_PUBLIC_KEY
-STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
-NEXT_PUBLIC_URL=http://localhost:3000
-```
-
-
 In another terminal
+
+copy frontend/.env.example to frontend/.env and modify it
+
+You can get the stripe keys from [the stripe dashboard](https://dashboard.stripe.com/test/apikeys)
 
 ```bash
 cd frontend
