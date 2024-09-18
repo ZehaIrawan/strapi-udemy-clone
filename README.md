@@ -1,3 +1,7 @@
+# How to run the project
+
+Copy backend/.env.example to backend/.env and modify it
+
 ```bash
 cd backend
 npm install
