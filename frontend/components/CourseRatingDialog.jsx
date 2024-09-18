@@ -14,6 +14,8 @@ const CourseRatingDialog = ({
   selectedCourse,
   setSelectedCourse,
   setCourseProgresses,
+  isAlreadyRated,
+  fetchCourseProgresses,
 }) => {
   const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(0);
@@ -57,7 +59,9 @@ const CourseRatingDialog = ({
     if (!selectedCourse || !rating) return;
 
     try {
+      const currentUser = localStorage.getItem("user");
       const token = localStorage.getItem("token");
+      const currentUserId = JSON.parse(currentUser).documentId;
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
@@ -65,8 +69,13 @@ const CourseRatingDialog = ({
         "http://localhost:1337/api/ratings",
         {
           data: {
-            course: selectedCourse.id,
             rating: rating,
+            course: {
+              connect: [selectedCourse.documentId],
+            },
+            user: {
+              connect: [currentUserId],
+            },
           },
         },
         config,
@@ -78,7 +87,7 @@ const CourseRatingDialog = ({
             : progress,
         ),
       );
-
+      fetchCourseProgresses();
       setSelectedCourse(null);
       setRating(0);
       setTempRating(0);
@@ -91,7 +100,25 @@ const CourseRatingDialog = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={handleOpen}>Leave a rating</Button>
+        <div onClick={handleOpen} className="cursor-pointer">
+          <div className="flex gap-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Star
+                key={star}
+                className={`h-4 w-4 cursor-pointer ${
+                  star <= (isAlreadyRated?.rating || 0)
+                    ? "text-yellow-400 fill-yellow-400"
+                    : "text-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+          {isAlreadyRated ? (
+            <p className="text-sm mt-1">Your rating</p>
+          ) : (
+            <p className="text-sm mt-1">Leave a rating</p>
+          )}
+        </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -117,7 +144,9 @@ const CourseRatingDialog = ({
             </div>
             <span className="text-sm">{getRatingText(tempRating)}</span>
           </div>
-          <Button className="px-4 py-2" onClick={handleRating}>Submit Rating</Button>
+          <Button className="px-4 py-2" onClick={handleRating}>
+            Submit Rating
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

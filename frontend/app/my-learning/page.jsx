@@ -10,30 +10,33 @@ const MyLearningPage = () => {
   const [courseProgresses, setCourseProgresses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+
+  const fetchCourseProgresses = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+      const response = await axios.get(
+        `http://127.0.0.1:1337/api/course-progresses?filters[user][id][$eq]=${currentUser.id}&[populate][course][populate][ratings][populate]=user`,
+        config,
+      );
+      setCourseProgresses(response.data.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching course progresses:", error);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchCourseProgresses = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        const currentUser = JSON.parse(localStorage.getItem("user"));
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        };
-        const response = await axios.get(`http://127.0.0.1:1337/api/course-progresses?filters[user][id][$eq]=${currentUser.id}&populate=course`,config);
-        setCourseProgresses(response.data.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching course progresses:", error);
-        setIsLoading(false);
-      }
-    };
-
     fetchCourseProgresses();
   }, []);
 
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -52,14 +55,18 @@ const MyLearningPage = () => {
               <div className="flex justify-between items-center mt-4">
                 <Link
                   href={`/my-learning/${progress.course.slug}`}
-                className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              >
-                Continue Learning
-              </Link>
-              <CourseRatingDialog
+                  className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  Continue Learning
+                </Link>
+                <CourseRatingDialog
+                  isAlreadyRated={progress.course.ratings.find(
+                    (rating) => rating.user.id === currentUser.id,
+                  )}
                   selectedCourse={progress.course}
                   setSelectedCourse={setSelectedCourse}
                   setCourseProgresses={setCourseProgresses}
+                  fetchCourseProgresses={fetchCourseProgresses}
                 />
               </div>
             </div>
