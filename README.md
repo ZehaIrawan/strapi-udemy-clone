@@ -20,3 +20,13 @@ cd frontend
 npm install
 npm run dev
 ```
+
+Then configure the role permission for both Authenticated and Public role in the Strapi admin panel for the following models:
+
+- Course
+- Lecture
+- Section
+- Cart
+- User
+- Course Progress
+- Rating

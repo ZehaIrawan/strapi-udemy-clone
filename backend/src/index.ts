@@ -1,5 +1,5 @@
 // import type { Core } from '@strapi/strapi';
-
+import { createCourseIfNotExists } from './bootstrap/createCourse';
 export default {
   /**
    * An asynchronous register function that runs before
@@ -16,5 +16,7 @@ export default {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
+  async bootstrap({ strapi }) {
+    await createCourseIfNotExists(strapi);
+  }
 };

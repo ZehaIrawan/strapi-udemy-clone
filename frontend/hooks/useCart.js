@@ -53,7 +53,7 @@ export const useCart = () => {
     }
   };
 
-  return { userCart, loading, removeFromCart,fetchUserCart };
+  return { userCart, loading, removeFromCart, fetchUserCart };
 };
 
 export const addToCart = async (cart, course, toast) => {
@@ -63,7 +63,7 @@ export const addToCart = async (cart, course, toast) => {
     headers: { Authorization: `Bearer ${token}` },
   };
 
-  if (!cart) {
+  if (cart?.length === 0 || !cart) {
     try {
       await axios.post(
         `http://127.0.0.1:1337/api/carts`,

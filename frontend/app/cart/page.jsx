@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Check, Delete } from "lucide-react";
 import Loader from "@/components/Loader";
 import { useCart } from "@/hooks/useCart";
-import CheckoutCart from '@/components/CheckoutCart';
+import CheckoutCart from "@/components/CheckoutCart";
 
 const CartPage = () => {
   const { userCart, loading, removeFromCart } = useCart();
@@ -28,7 +28,7 @@ const CartPage = () => {
         <div className="flex gap-12">
           <div className="flex-1">
             <h1 className="text-3xl font-semibold mb-6">Shopping Cart</h1>
-            {userCart?.courses?.length === 0 || !userCart?.courses ? (
+            {!userCart?.courses || userCart?.courses?.length === 0 ? (
               <p className="text-center text-gray-500">Your cart is empty</p>
             ) : (
               <div className="space-y-4">
@@ -38,12 +38,17 @@ const CartPage = () => {
                       key={item.id}
                       className="bg-white shadow-md rounded-md max-w-2xl"
                     >
-  
                       <CardContent className="flex gap-4 pt-6">
-                        <img className='w-24' src={item.thumbnail} alt="course thumbnail" />
+                        <img
+                          className="w-24"
+                          src={item.thumbnail}
+                          alt="course thumbnail"
+                        />
                         <div>
-                        <h2 className="text-lg font-semibold">{item.title}</h2>
-                        <p className="font-bold text-xl">${item.price}</p>
+                          <h2 className="text-lg font-semibold">
+                            {item.title}
+                          </h2>
+                          <p className="font-bold text-xl">${item.price}</p>
                         </div>
                         {/* Add any additional item details here */}
                       </CardContent>
@@ -69,9 +74,7 @@ const CartPage = () => {
               </div>
             )}
           </div>
-          {userCart?.courses?.length > 0 && (
-            <CheckoutCart />
-          )}
+          {userCart?.courses?.length > 0 && <CheckoutCart />}
         </div>
       </main>
     </div>
