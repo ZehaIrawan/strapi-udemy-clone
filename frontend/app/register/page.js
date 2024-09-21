@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import axios from 'axios';
 import AuthCheck from '@/components/AuthCheck';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -87,6 +88,7 @@ const RegisterPage = () => {
               Register
             </Button>
           </form>
+          <Link className="text-blue-500 hover:underline mt-4 block" href="/login">Already have an account? Login</Link>
         </CardContent>
       </Card>
     </div>

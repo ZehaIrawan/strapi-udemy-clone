@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { useRouter } from 'next/navigation';
 import axios from 'axios'; 
+import Link from 'next/link';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -66,6 +67,7 @@ const LoginPage = () => {
               Login
             </Button>
           </form>
+          <Link className="text-blue-500 hover:underline mt-4 block" href="/register">Don't have an account? Register</Link>
         </CardContent>
       </Card>
     </div>
